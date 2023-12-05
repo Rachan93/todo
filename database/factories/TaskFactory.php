@@ -19,8 +19,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(10),
-            'description' => $this->faker->realTextBetween($minNbChars = 50, $maxNbChars = 144),
+            'name' => $this->faker->word(30),
+            'description' => $this->faker->realTextBetween($minNbChars = 20, $maxNbChars = 150),
             'user_id' => User::get()->random()->id,
 
         ];
