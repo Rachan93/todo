@@ -40,12 +40,20 @@
             <div>
                 <strong>Status:</strong> {{ $task->is_done ? 'Completed' : 'Incomplete' }}
             </div>
-            <form method="POST" action="{{ route('tasks.status', $task) }}" >
+            <form method="POST" action="{{ route('tasks.status', $task) }}">
                 @csrf
                 @method('PATCH')
                 <button type="submit">
-        {{ $task->is_done ? 'Fait' : ' Pas fait' }}
-    </button>
+                    {{ $task->is_done ? 'Fait' : ' Pas fait' }}
+                </button>
+            </form>
+
+            <form method="POST" action="{{ route('tasks.delete', $task) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">
+                    Supprimer
+                </button>
             </form>
         </li>
         <br>
