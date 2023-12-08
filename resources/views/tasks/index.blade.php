@@ -37,16 +37,13 @@
             <div>
                 <strong>Description:</strong> {{ $task->description }}
             </div>
-            <div>
-                <strong>Status:</strong> {{ $task->is_done ? 'Completed' : 'Incomplete' }}
-            </div>
+            
             <form method="POST" action="{{ route('tasks.status', $task) }}">
-                @csrf
-                @method('PATCH')
-                <button type="submit">
-                    {{ $task->is_done ? 'Fait' : ' Pas fait' }}
-                </button>
-            </form>
+    @csrf
+    @method('PATCH')
+    <input type="checkbox" name="is_done" {{ $task->is_done ? 'checked' : '' }} onchange="this.form.submit()">
+    <label for="is_done">{{ $task->is_done ? 'Completed' : 'Incomplete' }}</label>
+</form>
 
             <form method="POST" action="{{ route('tasks.delete', $task) }}">
                 @csrf
@@ -54,10 +51,37 @@
                 <button type="submit">
                     Supprimer
                 </button>
+
+                <x-modal name="confirm-task-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('tasks.delete', $task) }}" class="p-6">
+            @csrf
+            @method('delete')
+
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Are you sure you want to delete this task?') }}
+            </h2>
+
+           <button type="submit">
+                    Supprimer
+                </button>
+            
+               
+
+              
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete Account') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
             </form>
-            <x-modal>
-                
-            </x-modal>
+            
         </li>
         <br>
         @endforeach
