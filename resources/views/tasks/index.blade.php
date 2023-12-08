@@ -55,6 +55,9 @@
                     Supprimer
                 </button>
             </form>
+            <x-modal>
+                
+            </x-modal>
         </li>
         <br>
         @endforeach
