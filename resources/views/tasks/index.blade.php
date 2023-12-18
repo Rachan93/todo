@@ -6,13 +6,13 @@
         @csrf
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" type="text" name="name" />
+            <x-text-input id="name" type="text" name="name" :value="old('name')"/>
             <x-input-error :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="description" :value="__('Description')" />
-            <x-text-input id="description" type="text" name="description" :value="old('description')" autofocus />
+            <x-text-input id="description" type="text" name="description" :value="old('description')"  />
             <x-input-error :messages="$errors->get('description')" />
         </div>
 
@@ -45,14 +45,12 @@
     <label for="is_done">{{ $task->is_done ? 'Completed' : 'Incomplete' }}</label>
 </form>
 
-            <form method="POST" action="{{ route('tasks.delete', $task) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit">
-                    Supprimer
-                </button>
-
-                <x-modal name="confirm-task-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+<x-danger-button
+        x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'confirm-task-deletion')"
+    >{{ __('Delete Task') }}</x-danger-button>
+              
+    <x-modal name="confirm-task-deletion"  focusable>
         <form method="post" action="{{ route('tasks.delete', $task) }}" class="p-6">
             @csrf
             @method('delete')
@@ -75,7 +73,7 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
+                    {{ __('Delete Task') }}
                 </x-danger-button>
             </div>
         </form>
