@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskStoreRequest;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -42,8 +43,11 @@ class TaskController extends Controller
     }
     public function delete(Task $task)
     {
-        $task->delete();
 
+        Gate::authorize('delete', $task);
+        
+        $task->delete();
+        
         return redirect()->route('tasks.index');
     }
 }
